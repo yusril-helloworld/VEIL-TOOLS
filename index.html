@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VEIL TOOLS — VEIL TECH</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            transition: background-color 0.4s ease, color 0.4s ease;
+            overflow-x: hidden;
+        }
+
+        .aesthetic-card {
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .aesthetic-card:hover {
+            transform: translateY(-4px);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(100, 150, 200, 0.2);
+            border-radius: 9999px;
+        }
+
+        @media print {
+            body * {
+                visibility: hidden;
+            }
+            #cvPreviewArea, #cvPreviewArea * {
+                visibility: visible;
+            }
+            #cvPreviewArea {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                background: white !important;
+                color: black !important;
+                border: none !important;
+                box-shadow: none !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#f0f4f8] text-[#1e293b] dark:bg-[#0b131e] dark:text-[#e2e8f0] selection:bg-[#bae6fd] dark:selection:bg-[#1e3a8a] w-full box-border">
+
+    <!-- NAVBAR -->
+    <header class="border-b border-[#d8e2ed] dark:border-[#1e293b] bg-[#f0f4f8]/80 dark:bg-[#0b131e]/80 backdrop-blur-md sticky top-0 z-40 transition-colors w-full">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 sm:h-20 flex items-center justify-between">
+            
+            <!-- LOGO: 95281.jpg -->
+            <div class="flex items-center gap-2 sm:gap-3 cursor-pointer group min-w-0" onclick="switchView('homeView')">
+                <div class="w-9 h-9 sm:w-11 sm:h-11 rounded-2xl border border-[#38bdf8]/30 overflow-hidden shadow-md group-hover:scale-105 transition-transform bg-[#0f172a] shrink-0">
+                    <img src="95281.jpg" alt="Logo" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col min-w-0">
+                    <span class="font-bold tracking-tight text-base sm:text-lg text-[#0f172a] dark:text-[#f8fafc] flex items-center gap-1.5 truncate">
+                        VEIL<span class="text-[#0284c7] dark:text-[#38bdf8]">TOOLS</span>
+                    </span>
+                    <span class="text-[9px] sm:text-[10px] text-[#64748b] dark:text-[#94a3b8] font-medium tracking-wide truncate">BY YUSRIL MAULANA</span>
+                </div>
+            </div>
+
+            <!-- CONTROLS -->
+            <div class="flex items-center gap-2 sm:gap-3 shrink-0">
+                <span class="hidden md:inline-flex items-center gap-1.5 text-xs font-medium text-[#0369a1] dark:text-[#7dd3fc] bg-[#e0f2fe] dark:bg-[#0c2a4a] px-3 py-1.5 rounded-full border border-[#bae6fd] dark:border-[#0369a1]">
+                    <span class="w-1.5 h-1.5 rounded-full bg-[#0ea5e9]"></span>
+                    Adaptive Layout
+                </span>
+
+                <!-- Theme Toggle Button -->
+                <button id="themeToggleBtn" aria-label="Toggle Theme" class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-[#e2e8f0] dark:bg-[#1e293b] border border-[#cbd5e1] dark:border-[#334155] flex items-center justify-center text-[#475569] dark:text-[#cbd5e1] hover:scale-105 active:scale-95 transition-all shadow-sm cursor-pointer">
+                    <i id="themeIcon" class="fa-solid fa-moon text-xs sm:text-sm"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= VIEW 1: HOME (Daftar Tools) ================= -->
+    <div id="homeView" class="app-view flex-grow max-w-5xl mx-auto px-4 sm:px-6 py-8 sm:py-16 w-full box-border">
+        <section class="mb-10 sm:mb-14 text-center sm:text-left">
+            <div class="inline-flex items-center gap-2 px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-full bg-[#e0f2fe] dark:bg-[#0c2a4a] border border-[#bae6fd] dark:border-[#0369a1] text-[#0369a1] dark:text-[#7dd3fc] text-[11px] sm:text-xs font-medium mb-4 sm:mb-6 shadow-sm">
+                <i class="fa-solid fa-wind text-[#0ea5e9]"></i> Online Utility Suite
+            </div>
+            <h1 class="text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-[#0f172a] dark:text-[#f8fafc] mb-3 sm:mb-4 leading-tight break-words">
+                Selesaikan urusan dokumen dan file <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#0284c7] to-[#38bdf8] dark:from-[#38bdf8] dark:to-[#7dd3fc]">tanpa ribet.</span>
+            </h1>
+            <p class="text-[#475569] dark:text-[#94a3b8] text-sm sm:text-base md:text-lg max-w-2xl leading-relaxed break-words">
+                Kumpulan alat bantu digital yang ringan, aman, dan siap diakses kapan pun Anda butuhkan.
+            </p>
+        </section>
+
+        <!-- TOOLS GRID -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5 w-full">
+            
+            <!-- 1. Kompres PDF -->
+            <button type="button" onclick="switchView('kompresPdfView')" class="tool-card aesthetic-card w-full text-left bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] p-5 sm:p-6 rounded-3xl shadow-sm hover:shadow-md dark:shadow-none group cursor-pointer box-border min-w-0">
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#e0f2fe] dark:bg-[#0c2a4a] text-[#0284c7] dark:text-[#38bdf8] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                        <i class="fa-solid fa-compress text-base sm:text-lg"></i>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">PDF Tools</span>
+                </div>
+                <h2 class="font-semibold text-sm sm:text-base text-[#0f172a] dark:text-[#f8fafc] mb-1.5 group-hover:text-[#0284c7] transition-colors flex items-center justify-between gap-2 min-w-0">
+                    <span class="truncate">Kompres PDF</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#0284c7] shrink-0"></i>
+                </h2>
+                <p class="text-[11px] sm:text-xs text-[#475569] dark:text-[#94a3b8] leading-relaxed break-words">Kecilkan ukuran file PDF secara lokal tanpa menurunkan keterbacaan teks.</p>
+            </button>
+
+            <!-- 2. Gabung PDF -->
+            <button type="button" onclick="switchView('gabungPdfView')" class="tool-card aesthetic-card w-full text-left bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] p-5 sm:p-6 rounded-3xl shadow-sm hover:shadow-md dark:shadow-none group cursor-pointer box-border min-w-0">
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#ccfbf1] dark:bg-[#042f2e] text-[#0d9488] dark:text-[#2dd4bf] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                        <i class="fa-solid fa-object-group text-base sm:text-lg"></i>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">PDF Tools</span>
+                </div>
+                <h2 class="font-semibold text-sm sm:text-base text-[#0f172a] dark:text-[#f8fafc] mb-1.5 group-hover:text-[#0d9488] transition-colors flex items-center justify-between gap-2 min-w-0">
+                    <span class="truncate">Gabung PDF</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#0d9488] shrink-0"></i>
+                </h2>
+                <p class="text-[11px] sm:text-xs text-[#475569] dark:text-[#94a3b8] leading-relaxed break-words">Satukan beberapa dokumen PDF terpisah menjadi satu file dokumen terstruktur.</p>
+            </button>
+
+            <!-- 3. Word ke PDF -->
+            <button type="button" onclick="switchView('wordPdfView')" class="tool-card aesthetic-card w-full text-left bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] p-5 sm:p-6 rounded-3xl shadow-sm hover:shadow-md dark:shadow-none group cursor-pointer box-border min-w-0">
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#dbeafe] dark:bg-[#1e3a8a] text-[#2563eb] dark:text-[#60a5fa] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                        <i class="fa-solid fa-file-word text-base sm:text-lg"></i>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">Document</span>
+                </div>
+                <h2 class="font-semibold text-sm sm:text-base text-[#0f172a] dark:text-[#f8fafc] mb-1.5 group-hover:text-[#2563eb] transition-colors flex items-center justify-between gap-2 min-w-0">
+                    <span class="truncate">Word ke PDF</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#2563eb] shrink-0"></i>
+                </h2>
+                <p class="text-[11px] sm:text-xs text-[#475569] dark:text-[#94a3b8] leading-relaxed break-words">Konversi dokumen .docx langsung ke format PDF dengan layout stabil.</p>
+            </button>
+
+            <!-- 4. Kompres Foto -->
+            <button type="button" onclick="switchView('kompresFotoView')" class="tool-card aesthetic-card w-full text-left bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] p-5 sm:p-6 rounded-3xl shadow-sm hover:shadow-md dark:shadow-none group cursor-pointer box-border min-w-0">
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#e0e7ff] dark:bg-[#312e81] text-[#4f46e5] dark:text-[#818cf8] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                        <i class="fa-solid fa-image text-base sm:text-lg"></i>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">Image Tools</span>
+                </div>
+                <h2 class="font-semibold text-sm sm:text-base text-[#0f172a] dark:text-[#f8fafc] mb-1.5 group-hover:text-[#4f46e5] transition-colors flex items-center justify-between gap-2 min-w-0">
+                    <span class="truncate">Kompres Foto</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#4f46e5] shrink-0"></i>
+                </h2>
+                <p class="text-[11px] sm:text-xs text-[#475569] dark:text-[#94a3b8] leading-relaxed break-words">Sesuaikan ukuran file gambar JPG/PNG untuk syarat unggah formulir atau portal kerja.</p>
+            </button>
+
+            <!-- 5. Hapus Background -->
+            <button type="button" onclick="switchView('hapusBgView')" class="tool-card aesthetic-card w-full text-left bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] p-5 sm:p-6 rounded-3xl shadow-sm hover:shadow-md dark:shadow-none group cursor-pointer box-border min-w-0">
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#e0f2fe] dark:bg-[#0c2a4a] text-[#0284c7] dark:text-[#38bdf8] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                        <i class="fa-solid fa-wand-magic-sparkles text-base sm:text-lg"></i>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">AI Local</span>
+                </div>
+                <h2 class="font-semibold text-sm sm:text-base text-[#0f172a] dark:text-[#f8fafc] mb-1.5 group-hover:text-[#0284c7] transition-colors flex items-center justify-between gap-2 min-w-0">
+                    <span class="truncate">Hapus Background</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#0284c7] shrink-0"></i>
+                </h2>
+                <p class="text-[11px] sm:text-xs text-[#475569] dark:text-[#94a3b8] leading-relaxed break-words">Hilangkan latar belakang foto secara otomatis menggunakan model AI di browser.</p>
+            </button>
+
+            <!-- 6. Pembuat CV ATS -->
+            <button type="button" onclick="switchView('cvBuilderView')" class="tool-card aesthetic-card w-full text-left bg-white dark:bg-[#111827] border border-[#0284c7]/40 dark:border-[#38bdf8]/40 p-5 sm:p-6 rounded-3xl shadow-sm hover:shadow-md dark:shadow-none group cursor-pointer relative overflow-hidden box-border min-w-0">
+                <div class="absolute top-0 right-0 bg-[#0284c7] text-white text-[8px] sm:text-[9px] font-bold px-2.5 sm:px-3 py-1 rounded-bl-xl uppercase tracking-wider">Live Editor</div>
+                <div class="flex items-center justify-between mb-4 sm:mb-5">
+                    <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-[#cffafe] dark:bg-[#083344] text-[#0891b2] dark:text-[#22d3ee] flex items-center justify-center group-hover:scale-105 transition-transform shrink-0">
+                        <i class="fa-solid fa-user-tie text-base sm:text-lg"></i>
+                    </div>
+                    <span class="text-[11px] sm:text-xs font-medium text-[#64748b] dark:text-[#94a3b8]">Career</span>
+                </div>
+                <h2 class="font-semibold text-sm sm:text-base text-[#0f172a] dark:text-[#f8fafc] mb-1.5 group-hover:text-[#0891b2] transition-colors flex items-center justify-between gap-2 min-w-0">
+                    <span class="truncate">Pembuat CV ATS</span>
+                    <i class="fa-solid fa-arrow-right text-xs opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all text-[#0891b2] shrink-0"></i>
+                </h2>
+                <p class="text-[11px] sm:text-xs text-[#475569] dark:text-[#94a3b8] leading-relaxed break-words">Susun CV bersih interaktif yang ramah sistem pemindaian ATS perusahaan.</p>
+            </button>
+
+        </section>
+    </div>
+
+    <!-- ================= VIEW 2: CV BUILDER ================= -->
+    <div id="cvBuilderView" class="app-view flex-grow max-w-6xl mx-auto px-4 sm:px-6 py-6 sm:py-10 w-full box-border hidden">
+        <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-6 sm:mb-8">
+            <button type="button" onclick="switchView('homeView')" class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] text-xs font-semibold hover:bg-slate-50 dark:hover:bg-[#1f2937] transition-all cursor-pointer shadow-sm">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda Tools
+            </button>
+            <button type="button" onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-[#0284c7] hover:bg-[#0369a1] text-white text-xs font-semibold flex items-center justify-center gap-2 transition-all shadow-sm cursor-pointer">
+                <i class="fa-solid fa-print"></i> Cetak / Simpan PDF ATS
+            </button>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 w-full min-w-0">
+            <!-- Form Input Sisi Kiri -->
+            <div class="lg:col-span-6 bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] rounded-3xl p-5 sm:p-6 shadow-sm space-y-4 sm:space-y-5 box-border min-w-0">
+                <div class="border-b border-[#d8e2ed] dark:border-[#1f2937] pb-4">
+                    <h2 class="text-base sm:text-lg font-bold text-[#0f172a] dark:text-[#f8fafc] break-words">Formulir Data CV ATS</h2>
+                    <p class="text-[11px] sm:text-xs text-[#64748b] dark:text-[#94a3b8] break-words">Isi data di bawah ini, pratinjau dokumen akan langsung berubah secara otomatis.</p>
+                </div>
+
+                <div class="space-y-4 min-w-0">
+                    <div class="min-w-0">
+                        <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Nama Lengkap</label>
+                        <input type="text" id="inputName" oninput="updateCV()" value="Yusril Pratama" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0">
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                        <div class="min-w-0">
+                            <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Posisi / Gelar Pekerjaan</label>
+                            <input type="text" id="inputRole" oninput="updateCV()" value="Frontend Developer &amp; UI Enthusiast" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0">
+                        </div>
+                        <div class="min-w-0">
+                            <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Email Kontak</label>
+                            <input type="text" id="inputEmail" oninput="updateCV()" value="yusril@email.com" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 min-w-0">
+                        <div class="min-w-0">
+                            <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Nomor Telepon</label>
+                            <input type="text" id="inputPhone" oninput="updateCV()" value="+62 812-3456-7890" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0">
+                        </div>
+                        <div class="min-w-0">
+                            <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Lokasi / Kota</label>
+                            <input type="text" id="inputLocation" oninput="updateCV()" value="Jakarta, Indonesia" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0">
+                        </div>
+                    </div>
+
+                    <div class="min-w-0">
+                        <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Ringkasan Profesional</label>
+                        <textarea id="inputSummary" rows="3" oninput="updateCV()" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0 resize-y">Software engineer berpengalaman dalam merancang aplikasi web modern yang cepat, responsif, dan mudah diakses oleh pengguna global.</textarea>
+                    </div>
+
+                    <div class="min-w-0">
+                        <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Pengalaman Kerja</label>
+                        <textarea id="inputExperience" rows="4" oninput="updateCV()" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0 resize-y">- Frontend Developer di PT Teknologi Maju (2023 - Sekarang)
+  • Mengembangkan antarmuka web dengan Tailwind CSS & JavaScript.
+  • Meningkatkan performa muat situs web sebesar 40%.
+- Junior Web Dev di Startup Lokal (2021 - 2023)
+  • Membantu maintenance modul sistem internal perusahaan.</textarea>
+                    </div>
+
+                    <div class="min-w-0">
+                        <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Pendidikan</label>
+                        <textarea id="inputEducation" rows="2" oninput="updateCV()" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0 resize-y">S1 Teknik Informatika - Universitas Indonesia (2017 - 2021)</textarea>
+                    </div>
+
+                    <div class="min-w-0">
+                        <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1] mb-1">Keahlian (Pisahkan dengan koma)</label>
+                        <input type="text" id="inputSkills" oninput="updateCV()" value="HTML5, CSS3, JavaScript, Tailwind CSS, Git, React.js" class="w-full px-3.5 sm:px-4 py-2.5 rounded-xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#cbd5e1] dark:border-[#374151] text-xs focus:outline-none focus:border-[#0284c7] box-border min-w-0">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pratinjau ATS Sisi Kanan -->
+            <div class="lg:col-span-6 min-w-0">
+                <div class="lg:sticky lg:top-24 min-w-0">
+                    <div class="flex items-center justify-between mb-2 gap-2">
+                        <span class="text-[11px] sm:text-xs font-bold uppercase tracking-wider text-[#64748b] truncate">Live ATS Preview</span>
+                        <span class="text-[10px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold px-2.5 py-1 rounded-full shrink-0">ATS: 98% Optimal</span>
+                    </div>
+                    
+                    <!-- Kertas CV Pratinjau (Overflow handled) -->
+                    <div class="overflow-x-auto w-full rounded-2xl shadow-xl border border-slate-200 bg-white">
+                        <div id="cvPreviewArea" class="bg-white text-slate-900 p-6 sm:p-8 min-w-[320px] max-w-full text-xs leading-relaxed font-sans box-border break-words">
+                            <div class="text-center border-b border-slate-300 pb-4 mb-4">
+                                <h1 id="prevName" class="text-lg sm:text-xl font-bold uppercase tracking-wide text-slate-900 break-words">Yusril Pratama</h1>
+                                <p id="prevRole" class="font-semibold text-slate-700 mt-0.5 break-words">Frontend Developer &amp; UI Enthusiast</p>
+                                <p id="prevContact" class="text-[10px] sm:text-[11px] text-slate-600 mt-1 break-words">yusril@email.com &bull; +62 812-3456-7890 &bull; Jakarta, Indonesia</p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3 class="font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 mb-1.5 text-[11px]">Ringkasan Profesional</h3>
+                                <p id="prevSummary" class="text-slate-700 whitespace-pre-line break-words">Software engineer berpengalaman dalam merancang aplikasi web modern yang cepat, responsif, dan mudah diakses oleh pengguna global.</p>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3 class="font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 mb-1.5 text-[11px]">Pengalaman Kerja</h3>
+                                <div id="prevExperience" class="text-slate-700 whitespace-pre-line space-y-1 break-words">
+- Frontend Developer di PT Teknologi Maju (2023 - Sekarang)
+  • Mengembangkan antarmuka web dengan Tailwind CSS & JavaScript.
+  • Meningkatkan performa muat situs web sebesar 40%.
+- Junior Web Dev di Startup Lokal (2021 - 2023)
+  • Membantu maintenance modul sistem internal perusahaan.
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                <h3 class="font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 mb-1.5 text-[11px]">Pendidikan</h3>
+                                <p id="prevEducation" class="text-slate-700 whitespace-pre-line break-words">S1 Teknik Informatika - Universitas Indonesia (2017 - 2021)</p>
+                            </div>
+
+                            <div>
+                                <h3 class="font-bold uppercase tracking-wider text-slate-800 border-b border-slate-200 pb-1 mb-1.5 text-[11px]">Keahlian</h3>
+                                <p id="prevSkills" class="text-slate-700 break-words">HTML5, CSS3, JavaScript, Tailwind CSS, Git, React.js</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 3: KOMPRES PDF ================= -->
+    <div id="kompresPdfView" class="app-view flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full box-border hidden">
+        <button type="button" onclick="switchView('homeView')" class="inline-flex items-center gap-2 px-4 py-2.5 mb-6 sm:mb-8 rounded-xl bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] text-xs font-semibold hover:bg-slate-50 dark:hover:bg-[#1f2937] transition-all cursor-pointer shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda Tools
+        </button>
+        <div class="bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] rounded-3xl p-6 sm:p-8 shadow-sm box-border min-w-0">
+            <div class="flex items-center gap-4 mb-6 min-w-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e0f2fe] dark:bg-[#0c2a4a] text-[#0284c7] dark:text-[#38bdf8] flex items-center justify-center text-xl sm:text-2xl shrink-0">
+                    <i class="fa-solid fa-compress"></i>
+                </div>
+                <div class="min-w-0">
+                    <h2 class="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#f8fafc] truncate">Kompres PDF Interaktif</h2>
+                    <p class="text-xs text-[#475569] dark:text-[#94a3b8] mt-0.5 break-words">Kecilkan ukuran dokumen PDF langsung di browser.</p>
+                </div>
+            </div>
+            
+            <div class="space-y-6 min-w-0">
+                <div class="border-2 border-dashed border-[#cbd5e1] dark:border-[#374151] rounded-2xl p-6 sm:p-8 text-center bg-[#f8fafc] dark:bg-[#0b131e] hover:border-[#0284c7] transition-colors cursor-pointer relative box-border min-w-0">
+                    <input type="file" id="pdfFile" accept=".pdf" onchange="handleFileSelect('pdf', this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                    <div class="w-12 h-12 rounded-full bg-[#e0f2fe] dark:bg-[#0c2a4a] text-[#0284c7] dark:text-[#38bdf8] flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <i class="fa-solid fa-cloud-arrow-up text-base"></i>
+                    </div>
+                    <p id="pdfFileName" class="text-sm font-semibold text-[#0f172a] dark:text-[#f8fafc] mb-1 break-words">Pilih atau seret file PDF ke sini</p>
+                    <p class="text-xs text-[#64748b] dark:text-[#94a3b8] break-words">Mendukung dokumen berukuran hingga 50MB</p>
+                </div>
+
+                <div class="p-5 rounded-2xl bg-[#f8fafc] dark:bg-[#0b131e] border border-[#d8e2ed] dark:border-[#1f2937] space-y-3 box-border min-w-0">
+                    <label class="block text-xs font-semibold text-[#475569] dark:text-[#cbd5e1]">Tingkat Kompresi:</label>
+                    <div class="flex flex-col sm:flex-row gap-3 sm:gap-4 min-w-0">
+                        <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="radio" name="compLevel" checked class="text-[#0284c7]"> Ringan</label>
+                        <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="radio" name="compLevel" class="text-[#0284c7]"> Sedang</label>
+                        <label class="flex items-center gap-2 text-xs cursor-pointer"><input type="radio" name="compLevel" class="text-[#0284c7]"> Ekstrem</label>
+                    </div>
+                </div>
+
+                <button type="button" onclick="simulateProcess('PDF Berhasil Dikompres & Diunduh!')" class="w-full py-3.5 sm:py-4 rounded-2xl bg-[#0284c7] hover:bg-[#0369a1] text-white font-semibold text-sm transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-bolt"></i> Proses Kompres PDF Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 4: GABUNG PDF ================= -->
+    <div id="gabungPdfView" class="app-view flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full box-border hidden">
+        <button type="button" onclick="switchView('homeView')" class="inline-flex items-center gap-2 px-4 py-2.5 mb-6 sm:mb-8 rounded-xl bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] text-xs font-semibold hover:bg-slate-50 dark:hover:bg-[#1f2937] transition-all cursor-pointer shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda Tools
+        </button>
+        <div class="bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] rounded-3xl p-6 sm:p-8 shadow-sm box-border min-w-0">
+            <div class="flex items-center gap-4 mb-6 min-w-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#ccfbf1] dark:bg-[#042f2e] text-[#0d9488] dark:text-[#2dd4bf] flex items-center justify-center text-xl sm:text-2xl shrink-0">
+                    <i class="fa-solid fa-object-group"></i>
+                </div>
+                <div class="min-w-0">
+                    <h2 class="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#f8fafc] truncate">Gabung PDF Interaktif</h2>
+                    <p class="text-xs text-[#475569] dark:text-[#94a3b8] mt-0.5 break-words">Satukan beberapa dokumen PDF menjadi satu file utuh.</p>
+                </div>
+            </div>
+
+            <div class="space-y-6 min-w-0">
+                <div class="border-2 border-dashed border-[#cbd5e1] dark:border-[#374151] rounded-2xl p-6 sm:p-8 text-center bg-[#f8fafc] dark:bg-[#0b131e] hover:border-[#0d9488] transition-colors cursor-pointer relative box-border min-w-0">
+                    <input type="file" id="mergePdfFiles" multiple accept=".pdf" onchange="handleMultiFiles(this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                    <div class="w-12 h-12 rounded-full bg-[#ccfbf1] dark:bg-[#042f2e] text-[#0d9488] dark:text-[#2dd4bf] flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <i class="fa-solid fa-files text-base"></i>
+                    </div>
+                    <p id="mergeFileList" class="text-sm font-semibold text-[#0f172a] dark:text-[#f8fafc] mb-1 break-words">Pilih beberapa file PDF sekaligus</p>
+                    <p class="text-xs text-[#64748b] dark:text-[#94a3b8] break-words">Seret berkas ke sini untuk mengatur urutan</p>
+                </div>
+
+                <button type="button" onclick="simulateProcess('File PDF Berhasil Digabung!')" class="w-full py-3.5 sm:py-4 rounded-2xl bg-[#0d9488] hover:bg-[#0f766e] text-white font-semibold text-sm transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-layer-group"></i> Gabungkan File Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 5: WORD KE PDF ================= -->
+    <div id="wordPdfView" class="app-view flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full box-border hidden">
+        <button type="button" onclick="switchView('homeView')" class="inline-flex items-center gap-2 px-4 py-2.5 mb-6 sm:mb-8 rounded-xl bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] text-xs font-semibold hover:bg-slate-50 dark:hover:bg-[#1f2937] transition-all cursor-pointer shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda Tools
+        </button>
+        <div class="bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] rounded-3xl p-6 sm:p-8 shadow-sm box-border min-w-0">
+            <div class="flex items-center gap-4 mb-6 min-w-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#dbeafe] dark:bg-[#1e3a8a] text-[#2563eb] dark:text-[#60a5fa] flex items-center justify-center text-xl sm:text-2xl shrink-0">
+                    <i class="fa-solid fa-file-word"></i>
+                </div>
+                <div class="min-w-0">
+                    <h2 class="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#f8fafc] truncate">Word ke PDF Interaktif</h2>
+                    <p class="text-xs text-[#475569] dark:text-[#94a3b8] mt-0.5 break-words">Ubah dokumen .docx menjadi format PDF dengan aman.</p>
+                </div>
+            </div>
+
+            <div class="space-y-6 min-w-0">
+                <div class="border-2 border-dashed border-[#cbd5e1] dark:border-[#374151] rounded-2xl p-6 sm:p-8 text-center bg-[#f8fafc] dark:bg-[#0b131e] hover:border-[#2563eb] transition-colors cursor-pointer relative box-border min-w-0">
+                    <input type="file" id="wordFile" accept=".docx,.doc" onchange="handleFileSelect('word', this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                    <div class="w-12 h-12 rounded-full bg-[#dbeafe] dark:bg-[#1e3a8a] text-[#2563eb] dark:text-[#60a5fa] flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <i class="fa-solid fa-file-arrow-up text-base"></i>
+                    </div>
+                    <p id="wordFileName" class="text-sm font-semibold text-[#0f172a] dark:text-[#f8fafc] mb-1 break-words">Pilih dokumen Microsoft Word (.docx)</p>
+                    <p class="text-xs text-[#64748b] dark:text-[#94a3b8] break-words">Layout dan format teks akan dipertahankan</p>
+                </div>
+
+                <button type="button" onclick="simulateProcess('Dokumen Berhasil Dikonversi ke PDF!')" class="w-full py-3.5 sm:py-4 rounded-2xl bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold text-sm transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-file-pdf"></i> Konversi ke PDF Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 6: KOMPRES FOTO ================= -->
+    <div id="kompresFotoView" class="app-view flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full box-border hidden">
+        <button type="button" onclick="switchView('homeView')" class="inline-flex items-center gap-2 px-4 py-2.5 mb-6 sm:mb-8 rounded-xl bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] text-xs font-semibold hover:bg-slate-50 dark:hover:bg-[#1f2937] transition-all cursor-pointer shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda Tools
+        </button>
+        <div class="bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] rounded-3xl p-6 sm:p-8 shadow-sm box-border min-w-0">
+            <div class="flex items-center gap-4 mb-6 min-w-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e0e7ff] dark:bg-[#312e81] text-[#4f46e5] dark:text-[#818cf8] flex items-center justify-center text-xl sm:text-2xl shrink-0">
+                    <i class="fa-solid fa-image"></i>
+                </div>
+                <div class="min-w-0">
+                    <h2 class="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#f8fafc] truncate">Kompres Foto Interaktif</h2>
+                    <p class="text-xs text-[#475569] dark:text-[#94a3b8] mt-0.5 break-words">Kecilkan ukuran gambar untuk syarat unggah formulir web.</p>
+                </div>
+            </div>
+
+            <div class="space-y-6 min-w-0">
+                <div class="border-2 border-dashed border-[#cbd5e1] dark:border-[#374151] rounded-2xl p-6 sm:p-8 text-center bg-[#f8fafc] dark:bg-[#0b131e] hover:border-[#4f46e5] transition-colors cursor-pointer relative box-border min-w-0">
+                    <input type="file" id="imageFile" accept="image/*" onchange="handleFileSelect('image', this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                    <div class="w-12 h-12 rounded-full bg-[#e0e7ff] dark:bg-[#312e81] text-[#4f46e5] dark:text-[#818cf8] flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <i class="fa-solid fa-camera text-base"></i>
+                    </div>
+                    <p id="imageFileName" class="text-sm font-semibold text-[#0f172a] dark:text-[#f8fafc] mb-1 break-words">Pilih berkas foto (JPG / PNG)</p>
+                    <p class="text-xs text-[#64748b] dark:text-[#94a3b8] break-words">Optimal untuk persyaratan lampiran berkas lamaran</p>
+                </div>
+
+                <button type="button" onclick="simulateProcess('Foto Berhasil Ditekan Ukurannya!')" class="w-full py-3.5 sm:py-4 rounded-2xl bg-[#4f46e5] hover:bg-[#4338ca] text-white font-semibold text-sm transition-all shadow-sm cursor-pointer flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-compress"></i> Kompres Foto Sekarang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= VIEW 7: HAPUS BACKGROUND ================= -->
+    <div id="hapusBgView" class="app-view flex-grow max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12 w-full box-border hidden">
+        <button type="button" onclick="switchView('homeView')" class="inline-flex items-center gap-2 px-4 py-2.5 mb-6 sm:mb-8 rounded-xl bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] text-xs font-semibold hover:bg-slate-50 dark:hover:bg-[#1f2937] transition-all cursor-pointer shadow-sm">
+            <i class="fa-solid fa-arrow-left"></i> Kembali ke Beranda Tools
+        </button>
+        <div class="bg-white dark:bg-[#111827] border border-[#d8e2ed] dark:border-[#1f2937] rounded-3xl p-6 sm:p-8 shadow-sm box-border min-w-0">
+            <div class="flex items-center gap-4 mb-6 min-w-0">
+                <div class="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-[#e0f2fe] dark:bg-[#0c2a4a] text-[#0284c7] dark:text-[#38bdf8] flex items-center justify-center text-xl sm:text-2xl shrink-0">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i>
+                </div>
+                <div class="min-w-0">
+                    <h2 class="text-lg sm:text-xl font-bold text-[#0f172a] dark:text-[#f8fafc] truncate">Hapus Background AI</h2>
+                    <p class="text-xs text-[#475569] dark:text-[#94a3b8] mt-0.5 break-words">Hilangkan latar belakang foto secara otomatis dengan kecerdasan buatan.</p>
+                </div>
+            </div>
+
+            <div class="space-y-6 min-w-0">
+                <div class="border-2 border-dashed border-[#cbd5e1] dark:border-[#374151] rounded-2xl p-6 sm:p-8 text-center bg-[#f8fafc] dark:bg-[#0b131e] hover:border-[#0284c7] transition-colors cursor-pointer relative box-border min-w-0">
+                    <input type="file" id="bgFile" accept="image/*" onchange="handleFileSelect('bg', this)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+                    <div class="w-12 h-12 rounded-full bg-[#e0f2fe] dark:bg-[#0c2a4a] text-[#0284c7] dark:text-[#38bdf8] flex items-center justify-center mx-auto mb-3 shadow-sm">
+                        <i class="fa-solid fa-user-gear text-base"></i>
+                    </div>
+                    <p id="bgFileName" class="text-sm font-semibold text-[#0f172a] dark:text-[#f8fafc] mb-1 break-words">Pilih foto potret untuk hapus latar belakang</p>
+                    <p class="text-xs text-[#64748b] dark:text-[#94a3b8] break-words">Diproses instan secara lokal di perangkat Anda</p>
+                </div>
+
+                <button type="button" onclick="simulateProcess('Background Berhasil Dihapus!')" class="w-full py-3.5 sm:py-4 rounded-2xl bg-[#0f172a] text-[#f8fafc] dark:bg-[#38bdf8] dark:text-[#0b131e] font-semibold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2 shadow-sm cursor-pointer">
+                    <i class="fa-solid fa-sparkles"></i> Proses Hapus Latar Belakang
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-[#d8e2ed] dark:border-[#1e293b] py-6 sm:py-8 bg-[#f0f4f8] dark:bg-[#0b131e] text-xs text-[#64748b] dark:text-[#94a3b8] transition-colors mt-auto w-full box-border">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+            <p class="break-words">&copy; 2026 VEIL TOOLS Dibuat oleh <span class="text-[#0f172a] dark:text-[#f8fafc] font-medium">YUSRIL MAULANA</span>.</p>
+            <div class="flex items-center gap-3">
+                <span>VEIL TECH</span>
+                <span>&bull;</span>Online Utility Suite
+                <span class="text-[#0284c7] dark:text-[#38bdf8] font-medium"></span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCRIPT LOGIC -->
+    <script>
+        const htmlElement = document.documentElement;
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeIcon = document.getElementById('themeIcon');
+
+        // Theme loader
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'light') {
+            htmlElement.classList.remove('dark');
+            themeIcon.className = 'fa-solid fa-sun text-xs sm:text-sm';
+        } else {
+            htmlElement.classList.add('dark');
+            themeIcon.className = 'fa-solid fa-moon text-xs sm:text-sm';
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+                themeIcon.className = 'fa-solid fa-sun text-xs sm:text-sm';
+            } else {
+                htmlElement.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+                themeIcon.className = 'fa-solid fa-moon text-xs sm:text-sm';
+            }
+        });
+
+        // View Routing Controller
+        function switchView(viewId) {
+            const views = document.querySelectorAll('.app-view');
+            views.forEach(v => v.classList.add('hidden'));
+            
+            const targetView = document.getElementById(viewId);
+            if (targetView) {
+                targetView.classList.remove('hidden');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+        }
+
+        // File Selection Feedbacks
+        function handleFileSelect(type, input) {
+            if (input.files && input.files[0]) {
+                const fileName = input.files[0].name;
+                if (type === 'pdf') document.getElementById('pdfFileName').textContent = `Terpilih: ${fileName}`;
+                if (type === 'word') document.getElementById('wordFileName').textContent = `Terpilih: ${fileName}`;
+                if (type === 'image') document.getElementById('imageFileName').textContent = `Terpilih: ${fileName}`;
+                if (type === 'bg') document.getElementById('bgFileName').textContent = `Terpilih: ${fileName}`;
+            }
+        }
+
+        function handleMultiFiles(input) {
+            if (input.files && input.files.length > 0) {
+                document.getElementById('mergeFileList').textContent = `${input.files.length} file PDF dipilih.`;
+            }
+        }
+
+        function simulateProcess(message) {
+            alert(`Simulasi Berhasil: ${message}`);
+            switchView('homeView');
+        }
+
+        // CV Builder Live Synchronizer
+        function updateCV() {
+            document.getElementById('prevName').textContent = document.getElementById('inputName').value || 'Nama Lengkap';
+            document.getElementById('prevRole').textContent = document.getElementById('inputRole').value || 'Posisi Pekerjaan';
+            const email = document.getElementById('inputEmail').value;
+            const phone = document.getElementById('inputPhone').value;
+            const loc = document.getElementById('inputLocation').value;
+            document.getElementById('prevContact').textContent = `${email} • ${phone} • ${loc}`;
+            
+            document.getElementById('prevSummary').textContent = document.getElementById('inputSummary').value;
+            document.getElementById('prevExperience').textContent = document.getElementById('inputExperience').value;
+            document.getElementById('prevEducation').textContent = document.getElementById('inputEducation').value;
+            document.getElementById('prevSkills').textContent = document.getElementById('inputSkills').value;
+        }
+    </script>
+</body>
+</html>
