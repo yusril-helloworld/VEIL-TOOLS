@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gabung PDF - BantuSemua</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Library Client-Side untuk memanipulasi PDF -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body class="bg-slate-50 text-slate-800 p-8 max-w-2xl mx-auto">
+
+    <a href="index.html" class="text-blue-500 mb-6 inline-block hover:underline">&larr; Kembali ke Beranda</a>
+    
+    <h1 class="text-3xl font-bold mb-2">Alat Gabung PDF</h1>
+    <p class="text-slate-500 mb-6">Satukan beberapa file PDF menjadi satu dokumen utuh langsung di perangkat Anda. 100% Aman.</p>
+    
+    <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <label class="block mb-2 font-medium">Pilih File PDF (Bisa pilih lebih dari satu):</label>
+        
+        <!-- Atribut "multiple" memungkinkan user memilih banyak file sekaligus -->
+        <input type="file" id="upload-pdfs" accept="application/pdf" multiple class="mb-4 block w-full text-sm text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-700 hover:file:bg-orange-100">
+        
+        <div id="file-list-container" class="hidden mb-6">
+            <h3 class="text-sm font-semibold mb-2">Dokumen yang akan digabung:</h3>
+            <ul id="file-list" class="list-decimal pl-5 text-sm text-slate-600 space-y-1"></ul>
+        </div>
+        
+        <button id="merge-btn" class="bg-orange-600 text-white px-5 py-2.5 rounded-lg hover:bg-orange-700 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed font-medium transition-colors" disabled>
+            Gabungkan PDF Sekarang
+        </button>
+        
+        <p id="status" class="text-slate-500 text-sm mt-4 hidden font-medium"></p>
+        
+        <div id="result-container" class="hidden mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <h3 class="font-bold text-green-800 mb-2">🎉 Selesai! Dokumen berhasil digabung.</h3>
+            <a id="download-btn" class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 cursor-pointer inline-block text-sm font-medium transition-colors">Unduh PDF Gabungan</a>
+        </div>
+    </div>
+
+    <script>
+        const uploadInput = document.getElementById('upload-pdfs');
+        const fileListContainer = document.getElementById('file-list-container');
+        const fileList = document.getElementById('file-list');
+        const mergeBtn = document.getElementById('merge-btn');
+        const statusText = document.getElementById('status');
+        const resultContainer = document.getElementById('result-container');
+        const downloadBtn = document.getElementById('download-btn');
+
+        let selectedFiles = [];
+
+        // 1. Mendeteksi file yang diunggah
+        uploadInput.addEventListener('change', (event) => {
+            selectedFiles = Array.from(event.target.files);
+            
+            // Wajib pilih minimal 2 file agar bisa digabung
+            if (selectedFiles.length > 1) {
+                mergeBtn.disabled = false;
+            } else {
+                mergeBtn.disabled = true;
+            }
+            
+            // Menampilkan daftar nama file di layar
+            fileList.innerHTML = '';
+            selectedFiles.forEach(file => {
+                const li = document.createElement('li');
+                li.textContent = file.name;
+                fileList.appendChild(li);
+            });
+            
+            if (selectedFiles.length > 0) {
+                fileListContainer.classList.remove('hidden');
+            }
+            
+            // Reset tampilan hasil
+            resultContainer.classList.add('hidden');
+            statusText.classList.add('hidden');
+        });
+
+        // 2. Proses penggabungan saat tombol diklik
+        mergeBtn.addEventListener('click', async () => {
+            if (selectedFiles.length < 2) return;
+            
+            statusText.textContent = 'Sedang memproses dan menggabungkan dokumen...';
+            statusText.classList.remove('hidden');
+            mergeBtn.disabled = true;
+
+            try {
+                // Memanggil library PDFLib
+                const { PDFDocument } = PDFLib;
+                
+                // Membuat dokumen PDF kosong baru
+                const mergedPdf = await PDFDocument.create();
+
+                // Looping untuk membaca isi setiap PDF yang dipilih user
+                for (const file of selectedFiles) {
+                    const arrayBuffer = await file.arrayBuffer();
+                    const pdf = await PDFDocument.load(arrayBuffer);
+                    
+                    // Mengambil semua halaman dari PDF tersebut
+                    const copiedPages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                    
+                    // Menambahkan halaman tersebut ke PDF baru
+                    copiedPages.forEach((page) => mergedPdf.addPage(page));
+                }
+
+                // Menyimpan PDF baru yang sudah digabung
+                const mergedPdfFile = await mergedPdf.save();
+                
+                // Membuat link unduhan (client-side blob)
+                const blob = new Blob([mergedPdfFile], { type: 'application/pdf' });
+                const url = URL.createObjectURL(blob);
+
+                downloadBtn.href = url;
+                downloadBtn.download = 'Gabungan_BantuSemua.pdf';
+                
+                resultContainer.classList.remove('hidden');
+                statusText.textContent = 'Berhasil!';
+            } catch (error) {
+                statusText.textContent = 'Terjadi kesalahan: ' + error.message;
+            } finally {
+                mergeBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
